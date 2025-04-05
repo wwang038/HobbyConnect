@@ -1,0 +1,131 @@
+// App.jsx
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import './styles.css';
+
+function Nav() {
+  return (
+    <nav>
+      <Link to="/">Profile</Link>
+      <Link to="/community">Community</Link>
+      <Link to="/group-chat">Group Chat</Link>
+      <Link to="/add-friend">Add Friend</Link>
+      <Link to="/personal-chat">Personal Chat</Link>
+    </nav>
+  );
+}
+
+function Profile() {
+  return (
+    <div className="profile">
+      <img src="graduation-icon.png" alt="Profile Icon" />
+      <h2>Name: Hanna</h2>
+      <p>Age: 26</p>
+      <p>Major: CS & Psyc</p>
+      <h3>Interests:</h3>
+      <ul>
+        <li>Comedy</li>
+        <li>Food</li>
+        <li>Travelling</li>
+      </ul>
+      <button onClick={() => alert('Profile editing feature coming soon!')}>Edit Your Profile</button>
+    </div>
+  );
+}
+
+function Community() {
+  const handleJoin = (group) => alert(`You have joined the ${group} group!`);
+
+  return (
+    <div className="profile">
+      <h2>Community</h2>
+      <button onClick={() => handleJoin('Comedy')}>Join Comedy Group</button>
+      <button onClick={() => handleJoin('Food')}>Join Food Group</button>
+      <button onClick={() => handleJoin('Travelling')}>Join Travelling Group</button>
+    </div>
+  );
+}
+
+function GroupChat() {
+  const [messages, setMessages] = useState([
+    'Craig Ferguson is great!',
+    'I agree!',
+    'I am going to watch his talk show tonight'
+  ]);
+  const [input, setInput] = useState('');
+
+  const sendMessage = () => {
+    if (input.trim()) {
+      setMessages([...messages, input]);
+      setInput('');
+    }
+  };
+
+  return (
+    <div className="chat">
+      <h2>Comedy Group Chat</h2>
+      {messages.map((msg, idx) => <p key={idx}>{msg}</p>)}
+      <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message..." />
+      <button onClick={sendMessage}>Send</button>
+    </div>
+  );
+}
+
+function AddFriend() {
+  const navigate = useNavigate();
+  return (
+    <div className="friend-profile">
+      <img src="user-icon.png" alt="User Icon" />
+      <h2>Name: Jason</h2>
+      <p>Year: 27</p>
+      <p>Major: CS</p>
+      <h3>Interests:</h3>
+      <ul>
+        <li>Hiking</li>
+        <li>Comedy</li>
+        <li>Swimming</li>
+      </ul>
+      <button onClick={() => navigate('/personal-chat')}>DM</button>
+    </div>
+  );
+}
+
+function PersonalChat() {
+  const [messages, setMessages] = useState(['Introduce yourself to your new friend!']);
+  const [input, setInput] = useState('');
+
+  const sendMessage = () => {
+    if (input.trim()) {
+      setMessages([...messages, input]);
+      setInput('');
+    }
+  };
+
+  return (
+    <div className="chat">
+      <h2>Chat with Jason</h2>
+      {messages.map((msg, idx) => <p key={idx}>{msg}</p>)}
+      <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type a message..." />
+      <button onClick={sendMessage}>Send</button>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Profile />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/group-chat" element={<GroupChat />} />
+          <Route path="/add-friend" element={<AddFriend />} />
+          <Route path="/personal-chat" element={<PersonalChat />} />
+        </Routes>
+        <Nav />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
