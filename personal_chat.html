@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Direct Messages</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .chat-container {
+      display: flex;
+      height: 90vh;
+      max-width: 700px;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    .chat-list {
+      width: 250px;
+      border-right: 1px solid #444;
+      overflow-y: auto;
+      padding: 0.75rem;
+      box-sizing: border-box;
+    }
+
+    .chat-list h2 {
+      margin: 0;
+      padding-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+
+    .chat-list h2 a {
+      color: #FFD700;
+      text-decoration: none;
+    }
+
+    .chat-list h2 a:hover {
+      text-decoration: underline;
+    }
+
+    .chat-list-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.4rem 0.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+      transition: background 0.2s;
+      box-sizing: border-box;
+    }
+
+    .chat-list-item:hover {
+      background-color: #2d2d40;
+    }
+
+    .chat-list-item-content {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .chat-list-item img.profile-pic {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .chat-list-item .name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.95rem;
+    }
+
+    .chat-list-item .name-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 70%;
+      display: inline-block;
+    }
+
+    .chat-list-item .time {
+      flex-shrink: 0;
+      font-size: 0.7em;
+      color: #999;
+      margin-left: 0.5rem;
+    }
+
+    .chat-list-item .preview {
+      font-size: 0.75em;
+      color: #aaa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1em;
+    }
+
+    .chat-window {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+      box-sizing: border-box;
+      padding-bottom: 3rem;
+    }
+
+    .chat-header {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 0.75rem;
+      color: #fff;
+      border-bottom: 1px solid #666;
+      padding-bottom: 0.4rem;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 1rem;
+      font-size: 0.9rem;
+      color: #eee;
+    }
+
+    .chat-message {
+      margin: 0.4rem 0;
+    }
+
+    .chat-message.you {
+      text-align: right;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 2rem;
+      align-items: center;
+    }
+
+    .chat-input input[type="text"] {
+      flex: 1;
+      padding: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .chat-input button {
+      padding: 0.4rem 0.8rem;
+      background-color: #FFD700;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 6em;
+      margin-top: 2em;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-icons a img {
+      width: 70px;
+      height: 70px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-icons a img:hover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+   
+    <aside class="chat-list">
+      <h2>
+        <a style="text-decoration: none" href="group_chat.html" title="Go to Community Chats">Personal Chats</a>
+      </h2>
+      <div id="chatListItems">
+        <div class="chat-list-item" onclick="selectChat('Alice')">
+          <div class="chat-list-item-content">
+            <img class="profile-pic" src="icons/alice.png" alt="Alice" />
+            <div style="flex-grow: 1">
+              <div class="name">
+                <span class="name-text">Alice</span>
+                <span class="time">2:45 PM</span>
+              </div>
+              <div class="preview">Hey! How’s it going?</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-list-item" onclick="selectChat('Bob')">
+          <div class="chat-list-item-content">
+            <img class="profile-pic" src="icons/bob.png" alt="Bob" />
+            <div style="flex-grow: 1">
+              <div class="name">
+                <span class="name-text">Bob</span>
+                <span class="time">1:10 PM</span>
+              </div>
+              <div class="preview">Are you coming to the meeting?</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-list-item" onclick="selectChat('Charlie')">
+          <div class="chat-list-item-content">
+            <img class="profile-pic" src="icons/charlie.png" alt="Charlie" />
+            <div style="flex-grow: 1">
+              <div class="name">
+                <span class="name-text">Charlie</span>
+                <span class="time">Yesterday</span>
+              </div>
+              <div class="preview">Thanks for the help!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+   
+    <section class="chat-window">
+      <div class="chat-header" id="chatHeader">Alice</div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message"><strong>Alice:</strong> Hey! How’s it going?</div>
+        <div class="chat-message you"><strong>You:</strong> Just working on my profile page!</div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" id="messageInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </section>
+  </div>
+
+ 
+  <nav class="nav-icons">
+    <a href="index.html" title="Profile">
+      <img src="icons/profile.png" alt="Profile" />
+    </a>
+    <a href="personal_chat.html" title="Direct Messages">
+      <img src="icons/chats.png" alt="DMS" />
+    </a>
+    <a href="community.html" title="Community">
+      <img src="icons/community.png" alt="Community" />
+    </a>
+  </nav>
+
+  <script>
+    const defaultDMs = [
+      { name: "Alice", time: "2:45 PM", preview: "Hey! How’s it going?", image: "alice.png" },
+      { name: "Bob", time: "1:10 PM", preview: "Are you coming to the meeting?", image: "bob.png" },
+      { name: "Charlie", time: "Yesterday", preview: "Thanks for the help!", image: "charlie.png" }
+    ];
+  
+    function renderDMList() {
+      const container = document.getElementById("chatListItems");
+      container.innerHTML = "";
+  
+      const storedNames = JSON.parse(localStorage.getItem("dms") || "[]");
+      const allDMs = [...defaultDMs];
+  
+      storedNames.forEach(name => {
+        if (!allDMs.find(dm => dm.name === name)) {
+          allDMs.push({ name, time: "Now", preview: "This is the beginning of your ...", image: "default.png" });
+        }
+      });
+  
+      allDMs.forEach(dm => {
+        const div = document.createElement("div");
+        div.className = "chat-list-item";
+        div.onclick = () => selectChat(dm.name);
+        div.innerHTML = `
+          <div class="chat-list-item-content">
+            <img class="profile-pic" src="icons/${dm.image}" alt="${dm.name}" />
+            <div style="flex-grow: 1">
+              <div class="name">
+                <span class="name-text">${dm.name}</span>
+                <span class="time">${dm.time}</span>
+              </div>
+              <div class="preview">${dm.preview}</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+  
+    function selectChat(name) {
+      document.getElementById("chatHeader").textContent = name;
+      const messagesDiv = document.getElementById("chatMessages");
+      messagesDiv.innerHTML = `
+        <div class="chat-message"><strong>${name}:</strong> This is the beginning of your chat with ${name}.</div>
+      `;
+    }
+  
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const message = input.value.trim();
+      if (message === "") return;
+  
+      const messagesDiv = document.getElementById("chatMessages");
+      const newMsg = document.createElement("div");
+      newMsg.className = "chat-message you";
+      newMsg.innerHTML = `<strong>You:</strong> ${message}`;
+      messagesDiv.appendChild(newMsg);
+  
+      input.value = "";
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  
+    window.onload = renderDMList;
+  </script>
+  
+</body>
+</html>

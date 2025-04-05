@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Profile Page</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .interests-container {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 1em;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 6em;
+      margin-top: 2em;
+      align-items: center;
+    }
+
+    .nav-icons a img {
+      width: 70px;
+      height: 70px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-icons a img:hover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile">
+    <img src="HannaPFP.png" alt="Profile Icon" style="width:90%"/>
+    <h2>Name: <span id="name" class="profile-span">Hanna</span></h2>
+    <p>Age: <span id="age" class="profile-span">26</span></p>
+    <p>Major: <span id="major" class="profile-span">CS & Psyc</span></p>
+    <h3>Interests:</h3>
+    <ul id="interests" class="interests-container">
+      <li class="profile-li">Comedy</li>
+      <li class="profile-li">Food</li>
+      <li class="profile-li">Travelling</li>
+    </ul>
+    <button id="editBtn">Edit Your Profile</button>
+  </div>
+
+  <nav class="nav-icons">
+    <a href="index.html" title="Profile">
+      <img src="icons\profile.png" alt="Profile" />
+    </a>
+    <a href="personal_chat.html" title="DMS">
+      <img src="icons\chats.png" alt="DMS" />
+    </a>
+    
+    <a href="community.html" title="communities">
+      <img src="icons\community.png" alt="communities" />
+    </a>
+  </nav>
+
+  <script>
+    const editBtn = document.getElementById("editBtn");
+    const interestsEl = document.getElementById("interests");
+    let isEditing = false;
+
+    function createInterestInput(value = "") {
+      const li = document.createElement("li");
+      li.className = "profile-li";
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "interestInput profile-span";
+      input.value = value;
+
+      input.addEventListener("input", () => {
+        const inputs = document.querySelectorAll(".interestInput");
+        const lastInput = inputs[inputs.length - 1];
+
+        if (input === lastInput && input.value.trim() !== "") {
+          interestsEl.appendChild(createInterestInput());
+        }
+
+        if (input.value.trim() === "" && input !== lastInput) {
+          li.remove();
+        }
+      });
+
+      li.appendChild(input);
+      return li;
+    }
+
+    editBtn.addEventListener("click", () => {
+      const nameEl = document.getElementById("name");
+      const ageEl = document.getElementById("age");
+      const majorEl = document.getElementById("major");
+
+      if (!isEditing) {
+        nameEl.innerHTML = `<input type="text" id="nameInput" value="${nameEl.textContent}" class="profile-span">`;
+        ageEl.innerHTML = `<input type="number" id="ageInput" value="${ageEl.textContent}" class="profile-span">`;
+        majorEl.innerHTML = `<input type="text" id="majorInput" value="${majorEl.textContent}" class="profile-span">`;
+
+        const lis = interestsEl.querySelectorAll("li");
+        const currentInterests = Array.from(lis).map(li => li.textContent);
+        interestsEl.innerHTML = "";
+        currentInterests.forEach(interest => {
+          interestsEl.appendChild(createInterestInput(interest));
+        });
+
+        interestsEl.appendChild(createInterestInput());
+
+        editBtn.textContent = "Save Profile";
+      } else {
+        const nameVal = document.getElementById("nameInput").value;
+        const ageVal = document.getElementById("ageInput").value;
+        const majorVal = document.getElementById("majorInput").value;
+
+        const interestInputs = document.querySelectorAll(".interestInput");
+        const newInterests = [];
+
+        interestInputs.forEach(input => {
+          const val = input.value.trim();
+          if (val) newInterests.push(val);
+        });
+
+        nameEl.textContent = nameVal;
+        ageEl.textContent = ageVal;
+        majorEl.textContent = majorVal;
+
+        interestsEl.innerHTML = "";
+        newInterests.forEach(interest => {
+          const li = document.createElement("li");
+          li.className = "profile-li";
+          li.textContent = interest;
+          interestsEl.appendChild(li);
+        });
+
+        editBtn.textContent = "Edit Your Profile";
+      }
+
+      isEditing = !isEditing;
+    });
+  </script>
+</body>
+</html>

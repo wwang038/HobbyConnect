@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #1e1e2f;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      padding: 2rem 1rem 6rem;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      color: #FFD700;
+      margin-bottom: 2rem;
+      font-size: 1.6rem;
+    }
+
+    .groups {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .groups button {
+      background-color: #FFD700;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .groups button:hover {
+      background-color: #e6c200;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 6em;
+      margin-top: 2em;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-icons a img {
+      width: 70px;
+      height: 70px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-icons a img:hover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Community</h2>
+
+    <div class="groups">
+      <button onclick="joinGroup('Comedy Group')">Join Comedy Group</button>
+      <button onclick="joinGroup('Food Group')">Join Food Group</button>
+      <button onclick="joinGroup('Travelling Group')">Join Travelling Group</button>
+      <button onclick="joinGroup('Music Group')">Join Music Group</button>
+      <button onclick="joinGroup('Sports Group')">Join Sports Group</button>
+      <button onclick="joinGroup('Tech Group')">Join Tech Group</button>
+      <button onclick="joinGroup('Book Club')">Join Book Club</button>
+      <button onclick="joinGroup('Gaming Group')">Join Gaming Group</button>
+      <button onclick="joinGroup('Movie Buffs')">Join Movie Buffs</button>
+      <button onclick="joinGroup('Art & Design')">Join Art & Design</button>
+    </div>
+  </div>
+
+  <nav>
+    <a href="index.html">Profile</a>
+    <a href="group_chat.html">Group Chat</a>
+    <a href="add_friend.html">Add Friend</a>
+    <a href="personal_chat.html">Personal Chat</a>
+  </nav>
+
+  <script>
+    function joinGroup(groupName) {
+      const joined = JSON.parse(localStorage.getItem("joinedGroups") || "[]");
+      if (!joined.includes(groupName)) {
+        joined.push(groupName);
+        localStorage.setItem("joinedGroups", JSON.stringify(joined));
+      }
+
+      localStorage.setItem("joinedGroupToOpen", groupName);
+      window.location.href = "group_chat.html";
+    }
+  </script>
+  <nav class="nav-icons">
+    <a href="profile.html" title="Profile">
+      <img src="icons/profile.png" alt="Profile" />
+    </a>
+    <a href="personal_chat.html" title="Direct Messages">
+      <img src="icons/chats.png" alt="DMS" />
+    </a>
+    <a href="community.html" title="Community">
+      <img src="icons/community.png" alt="Community" />
+    </a>
+  </nav>
+</body>
+</html>
