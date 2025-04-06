@@ -274,7 +274,12 @@
         selectChat(groupToOpen);
       }
     }
-
+    const groupImages = {
+  "Comedy Group": "comedy grou.png",
+  "Food Group": "food.png",
+  "Gaming Group": "gamign.png",
+  "Art & Design": "artpfp.png"
+};
     window.onload = () => {
       const userGroups = JSON.parse(localStorage.getItem("joinedGroups") || "[]");
       const openGroup = localStorage.getItem("joinedGroupToOpen");
@@ -282,10 +287,11 @@
       const allGroups = [...defaultGroups];
 
       userGroups.forEach(name => {
-        if (!allGroups.find(g => g.name === name)) {
-          allGroups.push({ name, image: "default.png" });
-        }
-      });
+  if (!allGroups.find(g => g.name === name)) {
+    const image = groupImages[name] || "default.png";
+    allGroups.push({ name, image });
+  }
+});
 
       renderGroupList(allGroups, openGroup);
       localStorage.removeItem("joinedGroupToOpen");

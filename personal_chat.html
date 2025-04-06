@@ -270,17 +270,34 @@
     ];
   
     function renderDMList() {
-      const container = document.getElementById("chatListItems");
-      container.innerHTML = "";
-  
-      const storedNames = JSON.parse(localStorage.getItem("dms") || "[]");
-      const allDMs = [...defaultDMs];
-  
-      storedNames.forEach(name => {
-        if (!allDMs.find(dm => dm.name === name)) {
-          allDMs.push({ name, time: "Now", preview: "This is the beginning of your ...", image: "default.png" });
-        }
+  const container = document.getElementById("chatListItems");
+  container.innerHTML = "";
+
+  const storedNames = JSON.parse(localStorage.getItem("dms") || "[]");
+  const allDMs = [...defaultDMs];
+
+  const dmImages = {
+    "Alice": "alice.png",
+    "Bob": "bob.png",
+    "Charlie": "charlie.png",
+    "Jason": "Jason.png"
+  };
+
+  storedNames.forEach(name => {
+    if (!allDMs.find(dm => dm.name === name)) {
+      const image = dmImages[name] || "default.png";
+      allDMs.push({
+        name,
+        time: "Now",
+        preview: "This is the beginning of your ...",
+        image
       });
+    }
+  });
+
+  
+
+
   
       allDMs.forEach(dm => {
         const div = document.createElement("div");
@@ -288,7 +305,7 @@
         div.onclick = () => selectChat(dm.name);
         div.innerHTML = `
           <div class="chat-list-item-content">
-            <img class="profile-pic" src="icons/${dm.image}" alt="${dm.name}" />
+            <img class="profile-pic" src="${dm.image}" alt="${dm.name}" />
             <div style="flex-grow: 1">
               <div class="name">
                 <span class="name-text">${dm.name}</span>
